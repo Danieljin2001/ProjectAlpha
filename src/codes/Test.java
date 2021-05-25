@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class Test {
 	public static void main(String []args) throws Exception{
+		/*
         Deck firstDeck = new Deck(1);
         firstDeck.getDeckInfo();
         System.out.println("Number of Decks used: "+firstDeck.getNumberOfDecks()+ "\n");
@@ -33,6 +34,45 @@ public class Test {
         System.out.println("USED CARDS: \n");
         firstDeck.getUsedDeckInfo();
         System.out.println("\nPercentage of used Cards: "+ firstDeck.getPercentageOfUsed());
+        */
+		
+		
+		Deck deck = new Deck(1);
+		HumanPlayer HP = new HumanPlayer(deck);
+		
+		deck.getDeckInfo();
+		
+		HP.hit();
+		System.out.println("Human Players card: " + HP.getHand());
+		HP.hit();
+		System.out.println("Human Players card: " + HP.getHand());
+		
+		
+		deck.getDeckInfo();
+		System.out.println("USED CARDS: \n");
+        deck.getUsedDeckInfo();
+        System.out.println("\nPercentage of used Cards: "+ deck.getPercentageOfUsed());
+        
+        
+        deck.resetDeck();
+        HP.clearHand();
+        System.out.println("USED CARDS: \n");
+        deck.getUsedDeckInfo();
+        System.out.println("Human Players card: " + HP.getHand());
+        
+        deck.getDeckInfo();
+        HP.hit();
+		System.out.println("Human Players card: " + HP.getHand());
+		HP.hit();
+		System.out.println("Human Players card: " + HP.getHand());
+		
+		deck.getDeckInfo();
+		System.out.println("USED CARDS: \n");
+        deck.getUsedDeckInfo();
+        
+        
+        
+		
        
 	}
 }
