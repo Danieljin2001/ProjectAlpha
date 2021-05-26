@@ -20,10 +20,7 @@ public class Dealer {
 		
         Deck firstDeck = new Deck(1);   
         ArrayList<Card> drawnCards = new ArrayList<Card>();
-//list containing the integers of the cards so you can sum it
-        ArrayList<Integer> drawnCardsInt = new ArrayList<Integer>();
-        
-        
+                
         // dealer logic i guess
         //added a delay between outputs just to be dramatic
         int x = 0;
@@ -34,19 +31,14 @@ public class Dealer {
 			TimeUnit.SECONDS.sleep(1);
         	drawnCards.add(firstDeck.drawCard());
 
-        	Card card = drawnCards.get(x);
+        	Card card = drawnCards.get(x);      	
+            System.out.println(drawnCards.get(x));     
+        	x += 1;        	
+        	System.out.println(card.getValue().get(0));
         	
-            System.out.println(drawnCards.get(x));
-            
-        	drawnCardsInt.addAll(card.getValue());
-        	x += 1;
-        	
-        	double sum = 0;
-            for (int i : drawnCardsInt) {
-              sum += i;
-            }
-            handValue = (int) sum;
-            if(sum > 17) {
+        	handValue += card.getValue().get(0);
+
+            if(handValue > 17) {
             	hitting = false;
             }
 
@@ -67,7 +59,6 @@ public class Dealer {
 		}
        }
 		
-		
 	public static void Win (){
 		System.out.println("Dealer Won");
 	}
@@ -82,4 +73,3 @@ public class Dealer {
 
         
 }
-
