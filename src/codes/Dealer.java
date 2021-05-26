@@ -9,41 +9,48 @@ public class Dealer {
 	
 	static int handValue = 0;
 	static int x = 0;
+
+	private static ArrayList<Card> dealerHand = new ArrayList<Card>();
 	
+
+    
 	public static void main(String []args) throws Exception{
 		
-        Deck firstDeck = new Deck(1);   
-        ArrayList<Card> drawnCards = new ArrayList<Card>();
-    	
+
+	    Deck firstDeck = new Deck(1);   
+	    ArrayList<Card> drawnCards = new ArrayList<Card>();
+		
 		Hit(drawnCards, firstDeck, x);
 		
       }
 		
 	/**
 	 * This method "hits" so it will draw a card from the deck array and will add that card to the drawnCards array. As well as call on the checkLogic function to see what to do next. 
-	 * @param drawnCards is an array that holds all the cards that have been drawn from the deck.
+	 *  @param dealer cards is an array that holds all the cards that have been drawn and added to the dealers hand.
 	 * @param firstDeck is what the deck that is being used is called. I think Daniel made it like this so we can use multiple decks in the future.
 	 * @param x is what card in the drawnCards array is being checked/added to the total. (Basically keeping track of which card is added the most recently to the hand)
 	 */
 	public static void Hit(ArrayList<Card> drawnCards, Deck firstDeck, int x) {
 		System.out.println("dealer hit"+ "\n");
 		drawnCards.add((Card) firstDeck.drawCard());
+		dealerHand.add((Card) firstDeck.drawCard());
+		
 		
 		System.out.println(drawnCards.get(x));
 
-    	if(drawnCards.get(x).getValue().get(0) == 1 && handValue <= 10){
-    		handValue += drawnCards.get(x).getValue().get(1);
+    	if(dealerHand.get(x).getValue().get(0) == 1 && handValue <= 10){
+    		handValue += dealerHand.get(x).getValue().get(1);
     		
     	}
     	else
     	{
-    		handValue += drawnCards.get(x).getValue().get(0);
+    		handValue += dealerHand.get(x).getValue().get(0);
     	}
 	
         System.out.println("Total is " + handValue + "\n");
 		x  += 1;
 
-		checkLogic(drawnCards, firstDeck, x);
+		checkLogic(dealerHand, firstDeck, x);
 		
 
 
@@ -51,11 +58,11 @@ public class Dealer {
 	
 	/**
 	 * This method checks the value that is in the dealer's hand and see's if it should hit or hold. Also tells it if it won or not.
-	 * @param drawnCards is an array that holds all the cards that have been drawn from the deck.
+	 * @param dealer cards is an array that holds all the cards that have been drawn and added to the dealers hand.
 	 * @param firstDeck is what the deck that is being used is called. I think Daniel made it like this so we can use multiple decks in the future.
 	 * @param x is what card in the drawnCards array is being checked/added to the total. (Basically keeping track of which card is added the most recently to the hand)
 	 */
-	public static void checkLogic(ArrayList<Card> drawnCards, Deck firstDeck, int x)
+	public static void checkLogic(ArrayList<Card> dealerHand, Deck firstDeck, int x)
 	{
 		
 		if (handValue > 21){
@@ -68,7 +75,7 @@ public class Dealer {
 		}
 		else if (handValue <17)
 		{
-			Hit(drawnCards, firstDeck, x);
+			Hit(dealerHand, firstDeck, x);
 		}
 		
 		else if(handValue >= 17 && handValue <21) {
