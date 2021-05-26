@@ -21,16 +21,12 @@ public class Probability {
 		int counter = 0;
 		int counter1 = 0;
 		
-		System.out.println(hand);
-		
 		for (String[] row : TABLE) {
-			System.out.println(row[0]);
-			if(row[0] == hand) {
+			if(row[0].equals(hand)) {
 				counter1 = counter;
 			}
 			counter ++;
 		}
-		System.out.println(counter);
 		return counter1;
 	}
 	public String getElement(int row, int column) {
@@ -40,8 +36,8 @@ public class Probability {
 	}
 	
 	public void tester(String d, String c1, String c2) {
-		int x = getDealerCard(d);
-		int y = getRow(c1, c2);
+		int x = getRow(c1, c2);		
+		int y = getDealerCard(d);
 		String move = getElement(x,y);
 		System.out.println(move);
 	}
