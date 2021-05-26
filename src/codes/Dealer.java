@@ -21,7 +21,7 @@ public class Dealer {
         Deck firstDeck = new Deck(1);   
         ArrayList<Card> drawnCards = new ArrayList<Card>();
                 
-        // dealer logic i guess
+        //dealer logic i guess
         //added a delay between outputs just to be dramatic
         int x = 0;
         boolean hitting = true;
@@ -34,9 +34,15 @@ public class Dealer {
         	Card card = drawnCards.get(x);      	
             System.out.println(drawnCards.get(x));     
         	x += 1;        	
-        	System.out.println(card.getValue().get(0));
         	
-        	handValue += card.getValue().get(0);
+        	if(card.getValue().get(0) == 1 && handValue <= 10){
+        		System.out.println("this is an ace");
+        		handValue += card.getValue().get(1);
+        		
+        	}
+        	else{
+        		handValue += card.getValue().get(0);
+        	}
 
             if(handValue > 17) {
             	hitting = false;
