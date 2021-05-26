@@ -104,7 +104,10 @@ public class Menu {
 	public int getDECK_NUMBER() {
 		return DECK_NUMBER;
 	}
-	
+	/**
+	 * Getter method for the amount of money that each players are using for the game
+	 * @return Amount of money
+	 */
 	public int getMONEY() {
 		return MONEY;
 	}
