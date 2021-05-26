@@ -6,16 +6,20 @@ public class Player {
 	private double MONEY = 0;
 	private double BET_AMOUNT = 0; //dynamic
 	
+	
 	private ArrayList<Card> HAND = new ArrayList<Card>();
 	protected Deck DECK;
 		
 	/**
 	 * Constructor
 	 * @param deck (takes in a deck in the constructor parameter)
+	 *  
 	 */
-	public Player(Deck deck) {
+	public Player(Deck deck, double startMoney, String NAME ) {
 		this.DECK = deck;
+		this.MONEY = startMoney;
 	}
+	
 		
 	/**
 	 * This method is used for players to hit a card.
@@ -37,7 +41,7 @@ public class Player {
 	 * This method is used to add money to the players account.
 	 * @param amount double (amount of money user wants to add)
 	 */
-	public void addMoney(double amount) {
+	private void addMoney(double amount) {
 		MONEY += amount;
 	}
 	

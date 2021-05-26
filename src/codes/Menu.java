@@ -6,6 +6,7 @@ public class Menu {
 	private int PLAYER_NUMBER;
 	private int DECK_NUMBER;
 	private int MONEY;
+	private String NAME;
 	
 	public void askPlayerNumber() {
 		boolean playerDone = false;
@@ -46,15 +47,38 @@ public class Menu {
 			}
 		}
 	}
-	/*
+	
 	public void askMoney() {
-		Scanner moneyAmount = new Scanner(System.in);
-		System.out.println("How much money are you going to be betting?");
-		MONEY = moneyAmount.nextInt();
-		
-		System.out.println("You will playing with " + MONEY + " today");
+		boolean moneyDone = false;
+		while (!moneyDone) {
+			try {
+				System.out.println("How much money are you going to be betting?");
+				Scanner moneyAmount = new Scanner(System.in);
+				MONEY = moneyAmount.nextInt();
+				if (MONEY > 0) {
+					System.out.println("You will playing with " + MONEY + " today");
+					moneyDone = true;
+				}
+				else 
+					throw new ArithmeticException ("Please enter a positive integar");
+			}
+			catch(Exception e) {
+				System.out.println("Please enter a positive integar");
+		}
+		}
 	}
-	*/
+	public void askName() {
+		Scanner playerName = new Scanner(System.in);
+		System.out.println("What is your name?");
+		NAME = playerName.next();
+		System.out.println("You are " + NAME);
+	}
+		
+		
+	public String getNAME() {
+		return NAME;
+	}	
+	
 	public int getPLAYER_NUMBER() {
 		return PLAYER_NUMBER;
 	}
@@ -62,9 +86,9 @@ public class Menu {
 	public int getDECK_NUMBER() {
 		return DECK_NUMBER;
 	}
-	/*
+	
 	public int getMONEY() {
 		return MONEY;
 	}
-*/
+
 }
