@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.concurrent.TimeUnit;
 
+
 public class Dealer {
 	
 	static int handValue = 0;
@@ -25,12 +26,11 @@ public class Dealer {
 	 * @param x is what card in the drawnCards array is being checked/added to the total. (Basically keeping track of which card is added the most recently to the hand)
 	 */
 	public static void Hit(ArrayList<Card> drawnCards, Deck firstDeck, int x) {
-	
 		System.out.println("dealer hit"+ "\n");
 		drawnCards.add((Card) firstDeck.drawCard());
 		
 		System.out.println(drawnCards.get(x));
-		
+
     	if(drawnCards.get(x).getValue().get(0) == 1 && handValue <= 10){
     		handValue += drawnCards.get(x).getValue().get(1);
     		
@@ -42,7 +42,7 @@ public class Dealer {
 	
         System.out.println("Total is " + handValue + "\n");
 		x  += 1;
-		
+
 		checkLogic(drawnCards, firstDeck, x);
 		
 
@@ -51,12 +51,13 @@ public class Dealer {
 	
 	/**
 	 * This method checks the value that is in the dealer's hand and see's if it should hit or hold. Also tells it if it won or not.
-	 * @param drawnCards
-	 * @param firstDeck
-	 * @param x
+	 * @param drawnCards is an array that holds all the cards that have been drawn from the deck.
+	 * @param firstDeck is what the deck that is being used is called. I think Daniel made it like this so we can use multiple decks in the future.
+	 * @param x is what card in the drawnCards array is being checked/added to the total. (Basically keeping track of which card is added the most recently to the hand)
 	 */
 	public static void checkLogic(ArrayList<Card> drawnCards, Deck firstDeck, int x)
 	{
+		
 		if (handValue > 21){
 			Lost();
 
@@ -100,6 +101,5 @@ public class Dealer {
 	public static void Hold (){
 		System.out.println("Dealer holds");
 	} 
-
-        
+	
 }
