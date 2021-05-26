@@ -15,7 +15,11 @@ public class Test {
 			test.askMoney();
 			players.add(new Player(test1, test.getMONEY(), test.getNAME()));
 		}
-		
+		for (Player p: players) {
+			System.out.println("Player " + p.getNAME() +" " + p.getMoney());
+			
+			
+		}
         
         
 		

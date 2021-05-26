@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Player {
 	private double MONEY = 0;
 	private double BET_AMOUNT = 0; //dynamic
-	
+	private String NAME = "";
 	
 	private ArrayList<Card> HAND = new ArrayList<Card>();
 	protected Deck DECK;
@@ -15,9 +15,10 @@ public class Player {
 	 * @param deck (takes in a deck in the constructor parameter)
 	 *  
 	 */
-	public Player(Deck deck, double startMoney, String NAME ) {
+	public Player(Deck deck, double startMoney, String name) {
 		this.DECK = deck;
 		this.MONEY = startMoney;
+		this.NAME = name;
 	}
 	
 		
@@ -82,5 +83,8 @@ public class Player {
 	public double getMoney() {
 		return MONEY;
 	}
-
+	
+	public String getNAME() {
+		return NAME;
+	}
 }
