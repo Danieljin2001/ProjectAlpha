@@ -8,8 +8,6 @@ public class tester {
 		// TODO Auto-generated method stub
 		CSVReader csv = new CSVReader("MH");
 		Probability prob = new Probability(csv.getMULTIHIT());
-		prob.tester("Two", "7", "2");
-
 	}
 
 }
