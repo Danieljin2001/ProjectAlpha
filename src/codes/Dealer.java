@@ -1,9 +1,6 @@
 package codes;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.concurrent.TimeUnit;
-
 
 public class Dealer {
 	
@@ -17,10 +14,8 @@ public class Dealer {
 	public static void main(String []args) throws Exception{
 		
 
-	    Deck firstDeck = new Deck(1);   
-	    ArrayList<Card> drawnCards = new ArrayList<Card>();
-		
-		Hit(drawnCards, firstDeck, x);
+
+
 		
       }
 		
@@ -38,6 +33,7 @@ public class Dealer {
 		
 		System.out.println(drawnCards.get(x));
 
+		
     	if(dealerHand.get(x).getValue().get(0) == 1 && handValue <= 10){
     		handValue += dealerHand.get(x).getValue().get(1);
     		
@@ -52,7 +48,6 @@ public class Dealer {
 
 		checkLogic(dealerHand, firstDeck, x);
 		
-
 
 	}
 	
