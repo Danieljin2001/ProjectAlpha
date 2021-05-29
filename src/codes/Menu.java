@@ -63,7 +63,7 @@ public class Menu {
 				Scanner moneyAmount = new Scanner(System.in);
 				MONEY = moneyAmount.nextInt();
 				if (MONEY > 0) {
-					System.out.print("You will playing with $" + MONEY + " today\n");
+					System.out.print("You will be playing with $" + MONEY + " today\n");
 					moneyDone = true;
 				}
 				else 
