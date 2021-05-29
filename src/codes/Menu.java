@@ -11,7 +11,7 @@ public class Menu {
 	/**
 	 * Asks the user how many players will be playing for the game. It has a limit of 7 players
 	 */
-	public void askPlayerNumber() {
+	public int askPlayerNumber() {
 		boolean playerDone = false;
 		while (!playerDone) {
 			try {
@@ -29,11 +29,12 @@ public class Menu {
 				System.out.print("Please enter a positive integar between 1-7\n");
 			}
 		}
+		return PLAYER_NUMBER;
 	}
 	/**
 	 * Asks the user for how many decks will be used for the game of blackjack
 	 */
-	public void askDeckNumber() {
+	public int askDeckNumber() {
 		boolean deckDone = false;
 		while (!deckDone) {
 			try {
@@ -51,11 +52,12 @@ public class Menu {
 				System.out.print("Please enter a positive integar between 1-8 with an exception of 3\n");
 			}
 		}
+		return DECK_NUMBER;
 	}
 	/**
 	 * Asks the user how much money they will be using for the game 
 	 */
-	public void askMoney() {
+	public int askMoney() {
 		boolean moneyDone = false;
 		while (!moneyDone) {
 			try {
@@ -73,15 +75,17 @@ public class Menu {
 				System.out.print("Please enter a positive integar");
 		}
 		}
+		return MONEY;
 	}
 	/**
 	 * Asks the user for the player's name
 	 */
-	public void askName() {
+	public String askName() {
 		Scanner playerName = new Scanner(System.in);
 		System.out.print("What is your name?");
 		NAME = playerName.next();
 		System.out.print("Nice to meet you " + NAME + "\n");
+		return NAME;
 	}
 	/**
 	 * Getter method for the name
@@ -94,22 +98,22 @@ public class Menu {
 	 * Getter method for the number of players in the game
 	 * @return Number of players
 	 */
-	public int getPLAYER_NUMBER() {
-		return PLAYER_NUMBER;
-	}
+	//public int getPLAYER_NUMBER() {
+		//return PLAYER_NUMBER;
+	//}
 	/**
 	 * Getter method for the number of decks used in the game
 	 * @return Number of decks
 	 */
-	public int getDECK_NUMBER() {
-		return DECK_NUMBER;
-	}
+	//public int getDECK_NUMBER() {
+		//return DECK_NUMBER;
+	//}
 	/**
 	 * Getter method for the amount of money that each players are using for the game
 	 * @return Amount of money
 	 */
-	public int getMONEY() {
-		return MONEY;
-	}
+	//public int getMONEY() {
+		//return MONEY;
+	//}
 
 }

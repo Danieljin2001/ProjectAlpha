@@ -15,7 +15,7 @@ public class Player {
 	 * @param deck (takes in a deck in the constructor parameter)
 	 *  
 	 */
-	public Player(Deck deck, double startMoney, String name) {
+	public Player(Deck deck, String name, double startMoney) {
 		this.DECK = deck;
 		this.MONEY = startMoney;
 		this.NAME = name;
