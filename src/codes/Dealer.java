@@ -14,7 +14,9 @@ public class Dealer {
 		this.DECK = deck;
 	}
 	
-	
+	/*
+	 * Draws a card from the deck and adds it to the dealers hand as well as calculates the total sum in the players hand with handValue. 
+	 */
 	public  void Hit() {
 		System.out.println("dealer hit"+ "\n");
 
@@ -22,6 +24,8 @@ public class Dealer {
 		int x = dealerHand.size() - 1;
 		
 		System.out.println(dealerHand);
+		
+		//this is so it knows what to do with aces
     	if(dealerHand.get(x).getValue().get(0) == 1 && handValue <= 10){
     		handValue += dealerHand.get(x).getValue().get(1);
     		
@@ -38,6 +42,9 @@ public class Dealer {
 
 	}
 	
+	/*
+	 * Figures out what to do next basically
+	 */
 	public  void checkLogic()
 	{
 		
