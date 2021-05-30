@@ -6,8 +6,8 @@ public class StandbyState extends GameState{
     }
 
     @Override
-    public Card hit() {
-        return null;
+    public Card hit() throws Exception{
+        throw new Exception("Your turn hasn't begun yet!");
     }
 
     @Override

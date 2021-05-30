@@ -3,11 +3,13 @@ package codes;
 import java.util.ArrayList;
 
 public class Player {
-	private double MONEY = 0;
+	private GameState state;
+	private double MONEY;
 	private double BET_AMOUNT = 0; //dynamic
-	private String NAME = "";
+	private String NAME;
+	private Boolean HUMAN = false;
 	
-	private ArrayList<Card> HAND = new ArrayList<Card>();
+	private ArrayList<Card> HAND = new ArrayList<>();
 	protected Deck DECK;
 		
 	/**
@@ -19,18 +21,26 @@ public class Player {
 		this.DECK = deck;
 		this.MONEY = startMoney;
 		this.NAME = name;
+		this.state = new StartState(deck);
 	}
-	
-		
+
+	public void changeState(GameState state) {
+		this.state = state;
+	}
+
 	/**
 	 * This method is used for players to hit a card.
 	 */
 	public void hit() {
-		Card hitCard = DECK.drawCard();
-		HAND.add(hitCard);
+		// Card hitCard = DECK.drawCard();
+		// HAND.add(hitCard);
+		try {
+			HAND.add(state.hit());
+		} catch (Exception e) {
+			System.out.println("It is not your turn!: " + e);
+		}
 	}
-	
-	
+
 	/**
 	 * This method is used to clear the players hand (use every time a new round starts or round ends)
 	 */
@@ -60,8 +70,6 @@ public class Player {
 		BET_AMOUNT = MONEY;
 	}
 	
-	
-	
 	public void win() {
 		MONEY += BET_AMOUNT;
 		BET_AMOUNT = 0;
@@ -87,4 +95,13 @@ public class Player {
 	public String getNAME() {
 		return NAME;
 	}
+
+	public GameState getState() {
+		return state;
+	}
+
+	public Boolean isHUMAN() {
+		return HUMAN;
+	}
+
 }

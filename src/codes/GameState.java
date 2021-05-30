@@ -7,7 +7,7 @@ public abstract class GameState {
         this.deck = deck;
     }
 
-    public abstract Card hit();
+    public abstract Card hit() throws Exception;
     public abstract void stand();
 
 }

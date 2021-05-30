@@ -23,10 +23,10 @@ public class Menu {
 					playerDone = true;
 				}
 				else
-					throw new ArithmeticException ("Please enter a positive integar between 1-7\n");
+					throw new ArithmeticException ("Please enter a positive integer between 1-7\n");
 			}
 			catch(Exception e) {
-				System.out.print("Please enter a positive integar between 1-7\n");
+				System.out.print("Please enter a positive integer between 1-7\n");
 			}
 		}
 	}
@@ -45,10 +45,10 @@ public class Menu {
 					deckDone = true;	
 				}
 				else 
-					throw new ArithmeticException ("Please enter a positive integar between 1-8 with an exception of 3");
+					throw new ArithmeticException ("Please enter a positive integer between 1-8 with an exception of 3");
 			}
 			catch(Exception e) {
-				System.out.print("Please enter a positive integar between 1-8 with an exception of 3\n");
+				System.out.print("Please enter a positive integer between 1-8 with an exception of 3\n");
 			}
 		}
 	}
@@ -67,10 +67,10 @@ public class Menu {
 					moneyDone = true;
 				}
 				else 
-					throw new ArithmeticException ("Please enter a positive integar");
+					throw new ArithmeticException ("Please enter a positive integer \n");
 			}
 			catch(Exception e) {
-				System.out.print("Please enter a positive integar");
+				System.out.print("Please enter a positive integer \n");
 		}
 		}
 	}

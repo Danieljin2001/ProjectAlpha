@@ -6,6 +6,9 @@ public class Main {
     }
 
     public static void play() {
-        Game game = new Game(2);
+        try {
+            Game game = new Game();
+            game.play();
+        } catch (Exception e) { }
     }
 }
