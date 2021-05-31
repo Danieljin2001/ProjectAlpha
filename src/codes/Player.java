@@ -5,7 +5,6 @@ import java.util.ArrayList;
 public class Player {
 	private double MONEY = 0;
 	private double BET_AMOUNT = 0; //dynamic
-	
 	private ArrayList<Card> HAND = new ArrayList<Card>();
 	protected Deck DECK;
 		
