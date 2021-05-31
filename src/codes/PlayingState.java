@@ -8,7 +8,7 @@ public class PlayingState extends GameState{
     @Override
     public Card hit() {
         Card hitCard = deck.drawCard();
-        System.out.println(hitCard.toString());
+        //System.out.println(hitCard.toString());
         return hitCard;
     }
 

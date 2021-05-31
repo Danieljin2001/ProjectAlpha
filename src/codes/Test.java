@@ -1,24 +1,34 @@
 package codes;
 
 import java.util.ArrayList;
+import java.util.Scanner;
+
 
 public class Test {
 	public static void main(String []args) throws Exception{
-		ArrayList<Player> players = new ArrayList<Player>();
-		Menu test = new Menu();
-		test.askPlayerNumber();
-		test.askDeckNumber();
-		Deck test1 = new Deck(test.getDECK_NUMBER());
+		Deck deck = new Deck(1);
+		Player player = new Player(deck, 1000.00, "Test Player");
+        
+		int play = 0;
 		
-		for(int i = 0; i < test.getPLAYER_NUMBER(); i++) {
-			test.askName();
-			test.askMoney();
-			players.add(new Player(test1, test.getMONEY(), test.getNAME()));
-		}
-		for (Player p: players) {
-			System.out.println("Player " + p.getNAME() +" " + p.getMoney());
+		
+		
+		while (play != 10) {
+			System.out.print("Hit? (10 to stop): ");
+			Scanner p = new Scanner(System.in);
+			play = p.nextInt();
 			
-			
+			System.out.println("You hit: " + player.hit());
+			System.out.println("Your hand: " + player.getHand());
+			System.out.println("Your hand total value: " + player.getHandValue());
+			if (player.getHandValue() > 21) {
+				System.out.println("You Lost!");
+				player.clearHand();
+			}
+			else if (player.getHandValue() == 21) {
+				System.out.println("BLACKJACK!");
+				player.clearHand();
+			}
 		}
         
         

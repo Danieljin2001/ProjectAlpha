@@ -11,6 +11,7 @@ public class Player {
 	
 	private ArrayList<Card> HAND = new ArrayList<>();
 	protected Deck DECK;
+	private int HAND_VALUE = 0;
 		
 	/**
 	 * Constructor
@@ -31,14 +32,53 @@ public class Player {
 	/**
 	 * This method is used for players to hit a card.
 	 */
-	public void hit() {
-		// Card hitCard = DECK.drawCard();
-		// HAND.add(hitCard);
+	public Card hit() {
+		Card card = DECK.drawCard();
+		/*
 		try {
-			HAND.add(state.hit());
-		} catch (Exception e) {
+			Card Hard = state.hit();
+		} 
+		catch (Exception e) {
 			System.out.println("It is not your turn!: " + e);
 		}
+		*/
+		
+		HAND.add(card);
+		HAND_VALUE += (card.getValue()).get(0); //note that every Ace is initially calculated with value = 1
+		changeAceValue();
+		return card;
+	}
+	
+	private void changeAceValue() {
+		boolean hasAce = false;
+		int valueWithoutAce = 0;
+		int numberOfOtherAces = -1;
+		//checking if the hand has an Ace
+		for (Card card : HAND) {
+			if ((card.getName()).equals("Ace")) {
+				hasAce = true;
+				numberOfOtherAces++;
+			}
+			else {
+				valueWithoutAce += card.getValue().get(0);
+			}
+		}
+		
+		int valueOfAce = HAND_VALUE - valueWithoutAce - numberOfOtherAces;
+		
+		if (hasAce) {
+			//first try setting the Ace to 11
+			if ((HAND_VALUE - valueOfAce + 11) <= 21) {
+				HAND_VALUE = HAND_VALUE - valueOfAce + 11; //setting one of the Ace(s) to 11
+			}
+			else if((HAND_VALUE - valueOfAce + 1) <= 21) {
+				HAND_VALUE = HAND_VALUE - valueOfAce + 1; //setting one of the Ace(s) to 1
+			}
+			else {
+				HAND_VALUE = HAND_VALUE - valueOfAce + 1; //set the Ace to 1 default if its over 21
+			}
+		}
+		
 	}
 
 	/**
@@ -46,6 +86,7 @@ public class Player {
 	 */
 	public void clearHand() {
 		HAND.clear();
+		HAND_VALUE = 0;
 	}
 	
 	/**
@@ -102,6 +143,10 @@ public class Player {
 
 	public Boolean isHUMAN() {
 		return HUMAN;
+	}
+	
+	public int getHandValue() {
+		return HAND_VALUE;
 	}
 
 }
