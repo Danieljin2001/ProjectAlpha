@@ -3,16 +3,15 @@ package codes;
 import java.util.Scanner;
 
 public class Menu {
-	private int PLAYER_NUMBER;
-	private int DECK_NUMBER;
-	private int MONEY;
-	private String NAME;
+
 	
 	/**
 	 * Asks the user how many players will be playing for the game. It has a limit of 7 players
+	 * @return The total amount of players that will be in the game
 	 */
-	public int askPlayerNumber() {
+	public int askTotalPlayer() {
 		boolean playerDone = false;
+		int PLAYER_NUMBER = 0;
 		while (!playerDone) {
 			try {
 				System.out.print("How many players are playing?");
@@ -33,9 +32,11 @@ public class Menu {
 	}
 	/**
 	 * Asks the user for how many decks will be used for the game of blackjack
+	 * @return The total amount of decks that will be used
 	 */
 	public int askDeckNumber() {
 		boolean deckDone = false;
+		int DECK_NUMBER = 0;
 		while (!deckDone) {
 			try {
 				System.out.print("How many decks are we using?");
@@ -56,12 +57,16 @@ public class Menu {
 	}
 	/**
 	 * Asks the user how much money they will be using for the game 
+	 * @param Takes in a instance of a Player
+	 * @return The total amount of money the Player will be playing with
 	 */
-	public int askMoney() {
+	public int askMoney(Player player) {
 		boolean moneyDone = false;
+		String name = player.getNAME();
+		int MONEY = 0;
 		while (!moneyDone) {
 			try {
-				System.out.print(NAME + ". How much money are you going to be betting?");
+				System.out.print(name + ". How much money are you going to be playing with?");
 				Scanner moneyAmount = new Scanner(System.in);
 				MONEY = moneyAmount.nextInt();
 				if (MONEY > 0) {
@@ -79,41 +84,174 @@ public class Menu {
 	}
 	/**
 	 * Asks the user for the player's name
+	 * @return The name of the player
 	 */
 	public String askName() {
 		Scanner playerName = new Scanner(System.in);
 		System.out.print("What is your name?");
-		NAME = playerName.next();
+		String NAME = playerName.next();
 		System.out.print("Nice to meet you " + NAME + "\n");
 		return NAME;
 	}
 	/**
-	 * Getter method for the name
-	 * @return name of the player
+	 * Asks the amount of human players that will be playing
+	 * @param Takes in the total amount of players in the game
+	 * @return Amount of human players
 	 */
-	public String getNAME() {
-		return NAME;
+	
+	public int askHumanPlayer(int PLAYER_NUMBER) {
+		boolean humanDone = false;
+		int HUMAN_NUMBER = 0;
+		while (!humanDone) {
+			try {
+				System.out.print("How many human players are playing?");
+				Scanner humanNumber = new Scanner(System.in);
+				HUMAN_NUMBER = humanNumber.nextInt();
+				if (HUMAN_NUMBER > 0 && HUMAN_NUMBER < PLAYER_NUMBER) {
+					System.out.print("We have " + HUMAN_NUMBER + " player(s) with us today\n");
+					humanDone = true;
+				}
+				else
+					throw new ArithmeticException ("Please enter a positive integar between 1-7 and less than the total amount of players\n");
+			}
+			catch(Exception e) {
+				System.out.print("Please enter a positive integar between 1-7 and less than total amount of players\n");
+			}
+		}
+		return HUMAN_NUMBER;
+		
 	}
 	/**
-	 * Getter method for the number of players in the game
-	 * @return Number of players
+	 * Asks for the amount the player is going to be betting for the round
+	 * @param Takes in a instance of a Player
+	 * @return amount of money that has been bet
 	 */
-	//public int getPLAYER_NUMBER() {
-		//return PLAYER_NUMBER;
-	//}
+	public int bettingRounds(Player player) {
+		boolean betsDone = false;
+		String name = player.getNAME();
+		int BETS = 0;
+		while (!betsDone) {
+			try {
+				System.out.print(name + ". How much money are you going to be betting for this round?");
+				Scanner betAmount = new Scanner(System.in);
+				BETS = betAmount.nextInt();
+				if (BETS > 0 && BETS < player.getMoney()) {
+					System.out.print("You will be betting $" + BETS + " for this round\n");
+					betsDone = true;
+				}
+				else 
+					throw new ArithmeticException ("Please enter a positive integar");
+			}
+			catch(Exception e) {
+				System.out.print("Please enter a positive integar");
+		}
+		}
+		return BETS;
+		
+	}
 	/**
-	 * Getter method for the number of decks used in the game
-	 * @return Number of decks
+	 * Asks if the player is going to be playing for the round or sit out the round
+	 * @param Takes in the instance of a Player
+	 * @return true if they want to keep playing and false if they want to sit the round
 	 */
-	//public int getDECK_NUMBER() {
-		//return DECK_NUMBER;
-	//}
+	public boolean fold(Player player) {
+		boolean counter = false;
+		boolean FOLD = false;
+		String sit;
+		while (!counter) {
+			try {
+				System.out.println(player.getNAME() + "Would you like to play the next round? yes or no");
+				Scanner fold1 = new Scanner(System.in);
+				sit = fold1.next();
+				System.out.println(sit);
+				if (sit.equals("yes")) {
+					System.out.println("You will be playing this round");
+					counter = true;
+					FOLD = true;					
+				}
+					else if(sit.equals("no")){
+						System.out.println("You will be sitting this round");
+						counter = true;
+						FOLD = false;					
+				}
+					else {
+						throw new ArithmeticException ("Please enter yes or no");
+					}
+			}
+				catch(Exception e) {
+					System.out.println("Please enter yes or no");
+				}
+				
+			}
+		return FOLD;
+		}
 	/**
-	 * Getter method for the amount of money that each players are using for the game
-	 * @return Amount of money
+	 * Asks the player if they are going to quit the game
+	 * @return true if quit and false if stay in game
 	 */
-	//public int getMONEY() {
-		//return MONEY;
-	//}
-
+	public boolean quit() {
+		boolean counter = false;
+		boolean QUIT = false;
+		String leave;
+		while (!counter) {
+			try {
+				System.out.println("Would like to leave the game? yes or no");
+				Scanner quit1 = new Scanner(System.in);
+				leave = quit1.next();
+				if (leave.equals("yes")) {
+					System.out.println("Thank you for playing");
+					counter = true;
+					QUIT = true;
+				}
+				else if (leave.equals("no")) {
+					System.out.println("We will be continuing the game");
+					counter = true;
+					QUIT = false;
+				}
+				else {
+					throw new ArithmeticException ("Please enter yes or no");
+				}
+			}
+				catch(Exception e) {
+					System.out.println("Please enter yes or no");
+			}
+			
+		}
+		return QUIT;
+		
+	}
+	/**
+	 * Asks the player if they are going to hit or stand
+	 * @return true if hit and false if stand
+	 */
+	public boolean hitOrStand() {
+		boolean counter = false;
+		boolean MOVES = false;
+		String move;
+		while (!counter) {
+			try {
+				System.out.println("Would you like to hit or stand");
+				Scanner move1 = new Scanner(System.in);
+				move = move1.next();
+				if (move.equals("hit")) {
+					System.out.println("HIT");
+					counter = true;
+					MOVES = true;
+				}
+				else if (move.equals("stand")) {
+					System.out.println("STAND");
+					counter = true;
+					MOVES = false;
+				}
+				else {
+					throw new ArithmeticException ("Please enter hit or stand");
+				}
+			}
+			catch(Exception e) {
+				System.out.println("Please enter hit or stand");
+			}
+		}
+		return MOVES;
+	}
+	
 }
