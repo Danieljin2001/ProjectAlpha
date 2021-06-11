@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class Test {
 	public static void main(String []args) throws Exception{
 		Deck deck = new Deck(1);
-		Player player = new Player(deck, 1000.00, "Test Player");
+		HumanPlayer player = new HumanPlayer(deck, 1000.00, "Test Player");
         
 		int play = 0;
 		
@@ -29,6 +29,15 @@ public class Test {
 				System.out.println("BLACKJACK!");
 				player.clearHand();
 			}
+			
+			if (play == 5) {
+				System.out.println("Used Cards: \n");
+				deck.getUsedDeckInfo();
+				System.out.println("Unused Cards: \n");
+				deck.getDeckInfo();
+				
+			}
+			
 		}
         
         
