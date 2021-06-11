@@ -4,144 +4,114 @@ import java.util.ArrayList;
 
 public abstract class Player {
 	
-	private GameState state;
 	private double MONEY;
-	private double BET_AMOUNT = 0; //dynamic
 	private String NAME;
-	protected Boolean HUMAN;
+	private ArrayList<Hand> HANDS= new ArrayList<Hand>();
 	
-	private ArrayList<Card> HAND = new ArrayList<>();
+	protected Boolean HUMAN;
 	protected Deck DECK;
-	private int HAND_VALUE = 0;
 		
 	
 	public Player(Deck deck, double startMoney, String name) {
 		this.DECK = deck;
 		this.MONEY = startMoney;
 		this.NAME = name;
-		this.state = new StartState(deck);
+	}
+	//dont use
+	public void wonHand(double moneyWon) {
+		MONEY += moneyWon;
 	}
 	
-	public void changeState(GameState state) {
-		this.state = state;
+	//dont use
+	public void lostHand(double moneyWon) {
+		MONEY -= moneyWon;
 	}
 	
-	//AI logic to whether hit, stand, bet, etc.
-	//BASICALLY PLAYER LOGIC
-	//rename dealer class checkLogic() to play()
-	public GameState play() {
-		return null;
-			
+	//use when player wants to play a round
+	public void setup() {
+		Hand hand = new Hand(DECK, this);
+		HANDS.add(hand);
 	}
 	
-	//unfinished
-	public void split() {
-		if (BET_AMOUNT > 0) {
-			
-		}
+	//use when drawing out cards
+	public Card drawCard() {
+		return (getHands().get(0)).hit();
 	}
 	
-	//unfinished
-	public void doubleBet() {
-		if (BET_AMOUNT > 0 && BET_AMOUNT*2 <= MONEY) {
-			BET_AMOUNT = BET_AMOUNT * 2;
-		}
+	
+	
+	//use for initial bet
+	public void initialBet(double initialBet) throws Exception {
+		getHands().get(0).bet(initialBet);
 	}
 	
-	public Card hit() {
-		Card card = DECK.drawCard();
-		HAND.add(card);
-		HAND_VALUE += (card.getValue()).get(0); //note that every Ace is initially calculated with value = 1
-		changeAceValue();
-		return card;
+	
+	//use after splitting
+	public void splitHandBet(double betForSplitHand) throws Exception {
+		getHands().get(1).bet(betForSplitHand);
 	}
 	
-	private void changeAceValue() {
-		boolean hasAce = false;
-		int valueWithoutAce = 0;
-		int numberOfOtherAces = -1;
-		//checking if the hand has an Ace
-		for (Card card : HAND) {
-			if ((card.getName()).equals("Ace")) {
-				hasAce = true;
-				numberOfOtherAces++;
+	//check if they can split
+	public Boolean canSplit() {
+		if(HANDS.size() == 1 && ((HANDS.get(0)).getHand()).size() == 2) {
+			Card firstCard = ((HANDS.get(0)).getHand()).get(0);
+			Card secCard = ((HANDS.get(0)).getHand()).get(1);
+			if(secCard.getValue().get(0) == firstCard.getValue().get(0)) {
+				return true;
 			}
 			else {
-				valueWithoutAce += card.getValue().get(0);
+				return false;
 			}
 		}
-		
-		int valueOfAce = HAND_VALUE - valueWithoutAce - numberOfOtherAces;
-		
-		if (hasAce) {
-			//first try setting the Ace to 11
-			if ((HAND_VALUE - valueOfAce + 11) <= 21) {
-				HAND_VALUE = HAND_VALUE - valueOfAce + 11; //setting one of the Ace(s) to 11
-			}
-			else if((HAND_VALUE - valueOfAce + 1) <= 21) {
-				HAND_VALUE = HAND_VALUE - valueOfAce + 1; //setting one of the Ace(s) to 1
-			}
-			else {
-				HAND_VALUE = HAND_VALUE - valueOfAce + 1; //set the Ace to 1 default if its over 21
-			}
-		}
-		
-	}
-	
-	public void clearHand() {
-		HAND.clear();
-		HAND_VALUE = 0;
-	}
-	
-	public void betMoney(double amount) throws Exception {
-		if (amount > MONEY) {
-			throw new Exception("Betting amount cannot be greater than the amount of money the player has.");
-		}
-		
 		else {
-			BET_AMOUNT = amount;
-		} 
-	}
-	
-	public void allIn() {
-		BET_AMOUNT = MONEY;
-	}
-	
-	public void win() {
-		MONEY += BET_AMOUNT;
-		BET_AMOUNT = 0;
-	}
-	
-	public void lose() {
-		MONEY -= BET_AMOUNT;
-		BET_AMOUNT = 0;
+			return false;
+		}
+		
 	}
 	
 	
-	
-	
-	public ArrayList<Card> getHand(){
-		return HAND;
+	//use after canSplit()
+	public void splitHand() throws Exception {
+		try {
+			Hand splitHand = new Hand(DECK, this, HANDS.get(0).split());
+			HANDS.add(splitHand);
+		}
+		catch(Exception e) {
+			throw new Exception("You cannot split right now.");
+		}
+		
 	}
+
+	
+	public void clearHands() {
+		HANDS.clear();
+	}
+	
+	
 	
 	public double getMoney() {
 		return MONEY;
 	}
 	
-	public String getNAME() {
+	public String getName() {
 		return NAME;
 	}
-
-	public GameState getState() {
-		return state;
+	
+	public ArrayList<Hand> getHands(){
+		return HANDS;
 	}
 
-	public Boolean isHUMAN() {
+	
+	public Boolean isHuman() {
 		return HUMAN;
 	}
 	
-	public int getHandValue() {
-		return HAND_VALUE;
+	public String toString() {
+		return "Player name: " + getName() + "\nMoney: " + getMoney() + "\nIs human: " + isHuman() +
+				"\nHands: " + getHands(); 
 	}
+	
+	
+	
 
 }
