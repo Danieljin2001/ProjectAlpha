@@ -2,8 +2,8 @@ package codes;
 
 public class AiPlayer extends Player{
 
-	public AiPlayer(Deck deck, double startMoney, String name) {
-		super(deck, startMoney, name);
+	public AiPlayer(Deck deck, String name, double startMoney) {
+		super(deck, name, startMoney);
 		this.HUMAN = false;
 		// TODO Auto-generated constructor stub
 	}

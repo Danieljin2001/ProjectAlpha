@@ -8,6 +8,8 @@ public abstract class Player {
 	private String NAME;
 	private ArrayList<Hand> HANDS= new ArrayList<Hand>();
 	
+	private Boolean PLAY = null;
+	
 	protected Boolean HUMAN;
 	protected Deck DECK;
 	/**
@@ -86,12 +88,28 @@ public abstract class Player {
 		
 	}
 
+	public Card getFirstCard() {
+		Card firstCard = getHands().get(0).getHand().get(0);
+		return firstCard;
+	}
+	
+	public Card getSecondCard() {
+		Card secCard = getHands().get(0).getHand().get(1);
+		return secCard;
+	}
+	
+	public void playOrNo(Boolean bool) {
+		this.PLAY = bool;
+	}
+	
 	
 	public void clearHands() {
 		HANDS.clear();
 	}
 	
-	
+	public Boolean getPlay() {
+		return PLAY;
+	}
 	
 	public double getMoney() {
 		return MONEY;

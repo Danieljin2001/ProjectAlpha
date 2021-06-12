@@ -15,6 +15,10 @@ public class Hand {
 		this.PLAYER = player;
 	}
 	
+	public Hand(Deck deck, Dealer dealer) {
+		this.DECK = deck;
+	}
+	
 	//use when split
 	public Hand(Deck deck, Player player, Card card) {
 		this.DECK = deck;
