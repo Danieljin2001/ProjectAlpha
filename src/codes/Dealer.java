@@ -1,110 +1,141 @@
 package codes;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.concurrent.TimeUnit;
-
 
 public class Dealer {
-
-	static int handValue = 0;
-	static int x = 0;
-
-	private static ArrayList<Card> dealerHand = new ArrayList<>();
+	private Deck DECK;
+	private  ArrayList<Card> dealerHand = new ArrayList<Card>();
 	
-
-    
-	public static void main(String []args) throws Exception{
-		
-
-	    Deck firstDeck = new Deck(1);   
-	    ArrayList<Card> drawnCards = new ArrayList<>();
-		
-		Hit(drawnCards, firstDeck, x);
-		
-      }
-		
-	/**
-	 * This method "hits" so it will draw a card from the deck array and will add that card to the drawnCards array. As well as call on the checkLogic function to see what to do next. 
-	 *  @param drawnCards cards is an array that holds all the cards that have been drawn and added to the dealers hand.
-	 * @param firstDeck is what the deck that is being used is called. I think Daniel made it like this so we can use multiple decks in the future.
-	 * @param x is what card in the drawnCards array is being checked/added to the total. (Basically keeping track of which card is added the most recently to the hand)
+	private int handValue = 0;
+	
+	public  Dealer(Deck deck)
+	{
+		this.DECK = deck;
+	}
+	
+	/*
+	 * Draws a card from the deck and adds it to the dealers hand as well as calculates the total sum in the players hand with handValue. 
 	 */
-	public static void Hit(ArrayList<Card> drawnCards, Deck firstDeck, int x) {
-		System.out.println("dealer hit"+ "\n");
-		drawnCards.add(firstDeck.drawCard());
-		dealerHand.add(firstDeck.drawCard());
-		
-		
-		System.out.println(drawnCards.get(x));
+	public Card Hit() {
+		//System.out.println("dealer hit"+ "\n");
+		Card card = DECK.drawCard();
+		dealerHand.add(card);
+		handValue += (card.getValue()).get(0);
 
-    	if(dealerHand.get(x).getValue().get(0) == 1 && handValue <= 10){
-    		handValue += dealerHand.get(x).getValue().get(1);
-    		
-    	}
-    	else
-    	{
-    		handValue += dealerHand.get(x).getValue().get(0);
-    	}
-	
-        System.out.println("Total is " + handValue + "\n");
-		x  += 1;
-
-		checkLogic(dealerHand, firstDeck, x);
+		changeAceValue();
 		
+		return card;
 
+		
 
 	}
 	
-	/**
-	 * This method checks the value that is in the dealer's hand and see's if it should hit or hold. Also tells it if it won or not.
-	 * @param dealerHand cards is an array that holds all the cards that have been drawn and added to the dealers hand.
-	 * @param firstDeck is what the deck that is being used is called. I think Daniel made it like this so we can use multiple decks in the future.
-	 * @param x is what card in the drawnCards array is being checked/added to the total. (Basically keeping track of which card is added the most recently to the hand)
+
+	/*
+	 * Figures out what to do next basically
 	 */
-	public static void checkLogic(ArrayList<Card> dealerHand, Deck firstDeck, int x)
+	public void checkLogic()
 	{
+		boolean hold = false;
+		while(hold == false) {
 		
 		if (handValue > 21){
 			Lost();
+			hold = true;
 
 		}
 		else if (handValue == 21){
 			
 			Win();
+			hold = true;
 		}
 		else if (handValue <17)
 		{
-			Hit(dealerHand, firstDeck, x);
+			System.out.println("You hit: " + Hit());
+			System.out.println("Your hand: " + getHand());
+			System.out.println("Your hand total value: " + getHandValue());
 		}
 		else {
 			Hold();
+			hold = true;
 		}
+
+		else
+		{
+			
+		}
+		
 	}
+}
 
 	/** 
 	 * this method is to declare when the dealer wins
 	 */
-	public static void Win (){
+	public  void Win (){
 		System.out.println("Dealer Wins");
+   
 	}
 	
 	/** 
 	 * this method is to declare when the dealer busts
 	 */
-	public static void Lost (){
+	public  void Lost (){
 		System.out.println("Dealer Loses");
+    
 	}
 	
 	/** 
 	 * this method is to declare when the dealer holds
 	 */
-	public static void Hold (){
+	public  void Hold (){
 		System.out.println("Dealer holds");
-	}
 
-	public static int getHandValue() {
+    
+	} 
+	
+	public void clearHand(){	
+		dealerHand.removeAll(dealerHand);
+		handValue = 0;
+	}
+	
+	private void changeAceValue() {
+		boolean hasAce = false;
+		int valueWithoutAce = 0;
+		int numberOfOtherAces = -1;
+		//checking if the hand has an Ace
+		for (Card card : dealerHand) {
+			if ((card.getName()).equals("Ace")) {
+				hasAce = true;
+				numberOfOtherAces++;
+			}
+			else {
+				valueWithoutAce += card.getValue().get(0);
+			}
+		}
+		
+		int valueOfAce = handValue - valueWithoutAce - numberOfOtherAces;
+		
+		if (hasAce) {
+			//first try setting the Ace to 11
+			if ((handValue - valueOfAce + 11) <= 21) {
+				handValue = handValue - valueOfAce + 11; //setting one of the Ace(s) to 11
+			}
+			else if((handValue - valueOfAce + 1) <= 21) {
+				handValue = handValue - valueOfAce + 1; //setting one of the Ace(s) to 1
+			}
+			else {
+				handValue = handValue - valueOfAce + 1; //set the Ace to 1 default if its over 21
+			}
+		}
+		
+	}
+	
+	public int getHandValue() {
 		return handValue;
+	}
+	
+	public ArrayList<Card> getHand(){
+		return dealerHand;
 	}
 	
 }
