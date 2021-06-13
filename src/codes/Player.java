@@ -98,6 +98,7 @@ public abstract class Player {
 		return secCard;
 	}
 	
+	//use when asking player if they want to play this round
 	public void playOrNo(Boolean bool) {
 		this.PLAY = bool;
 	}
@@ -107,6 +108,7 @@ public abstract class Player {
 		HANDS.clear();
 	}
 	
+	//seeing if they want to play this round
 	public Boolean getPlay() {
 		return PLAY;
 	}
