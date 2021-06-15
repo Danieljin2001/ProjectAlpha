@@ -2,106 +2,140 @@ package codes;
 
 import java.util.ArrayList;
 
-public class Player {
-	private GameState state;
-	private double MONEY;
-	private double BET_AMOUNT = 0; //dynamic
-	private String NAME;
-	private Boolean HUMAN = false;
+public abstract class Player {
 	
-	private ArrayList<Card> HAND = new ArrayList<>();
+	private double MONEY;
+	private String NAME;
+	private ArrayList<Hand> HANDS= new ArrayList<Hand>();
+	
+	private Boolean PLAY = null;
+	
+	protected Boolean HUMAN;
 	protected Deck DECK;
-		
 	/**
 	 * Constructor
 	 * @param deck (takes in a deck in the constructor parameter)
 	 *  
 	 */
-	public Player(Deck deck, double startMoney, String name) {
+	public Player(Deck deck, String name, double startMoney) {
+
 		this.DECK = deck;
 		this.MONEY = startMoney;
 		this.NAME = name;
-		this.state = new StartState(deck);
 	}
-
-	public void changeState(GameState state) {
-		this.state = state;
+	//dont use
+	public void wonHand(double moneyWon) {
+		MONEY += moneyWon;
 	}
-
-	/**
-	 * This method is used for players to hit a card.
-	 */
-	public void hit() {
-		// Card hitCard = DECK.drawCard();
-		// HAND.add(hitCard);
-		try {
-			HAND.add(state.hit());
-		} catch (Exception e) {
-			System.out.println("It is not your turn!: " + e);
+	
+	//dont use
+	public void lostHand(double moneyWon) {
+		MONEY -= moneyWon;
+	}
+	
+	//use when player wants to play a round
+	public void setup() {
+		Hand hand = new Hand(DECK, this);
+		HANDS.add(hand);
+	}
+	
+	//use when drawing out cards
+	public Card drawCard() {
+		return (getHands().get(0)).hit();
+	}
+	
+	
+	
+	//use for initial bet
+	public void initialBet(double initialBet) throws Exception {
+		getHands().get(0).bet(initialBet);
+	}
+	
+	
+	//use after splitting
+	public void splitHandBet(double betForSplitHand) throws Exception {
+		getHands().get(1).bet(betForSplitHand);
+	}
+	
+	//check if they can split
+	public Boolean canSplit() {
+		if(HANDS.size() == 1 && ((HANDS.get(0)).getHand()).size() == 2) {
+			Card firstCard = ((HANDS.get(0)).getHand()).get(0);
+			Card secCard = ((HANDS.get(0)).getHand()).get(1);
+			if(secCard.getValue().get(0) == firstCard.getValue().get(0)) {
+				return true;
+			}
+			else {
+				return false;
+			}
 		}
-	}
-
-	/**
-	 * This method is used to clear the players hand (use every time a new round starts or round ends)
-	 */
-	public void clearHand() {
-		HAND.clear();
-	}
-	
-	/**
-	 * This method is used to add money to the players account.
-	 * @param amount double (amount of money user wants to add)
-	 */
-	private void addMoney(double amount) {
-		MONEY += amount;
-	}
-	
-	public void betMoney(double amount) throws Exception {
-		if (amount > MONEY) {
-			throw new Exception("Betting amount cannot be greater than the amount of money the player has.");
+		else {
+			return false;
 		}
 		
-		else {
-			BET_AMOUNT = amount;
-		} 
 	}
 	
-	public void allIn() {
-		BET_AMOUNT = MONEY;
+	
+	//use after canSplit()
+	public void splitHand() throws Exception {
+		try {
+			Hand splitHand = new Hand(DECK, this, HANDS.get(0).split());
+			HANDS.add(splitHand);
+		}
+		catch(Exception e) {
+			throw new Exception("You cannot split right now.");
+		}
+		
+	}
+
+	public Card getFirstCard() {
+		Card firstCard = getHands().get(0).getHand().get(0);
+		return firstCard;
 	}
 	
-	public void win() {
-		MONEY += BET_AMOUNT;
-		BET_AMOUNT = 0;
+	public Card getSecondCard() {
+		Card secCard = getHands().get(0).getHand().get(1);
+		return secCard;
 	}
 	
-	public void lose() {
-		MONEY -= BET_AMOUNT;
-		BET_AMOUNT = 0;
+	//use when asking player if they want to play this round
+	public void playOrNo(Boolean bool) {
+		this.PLAY = bool;
 	}
 	
-	/**
-	 * This method returns an array of the player's hand
-	 * @return ArrayList<Card> (returns an array of Card)
-	 */
-	public ArrayList<Card> getHand(){
-		return HAND;
+	
+	public void clearHands() {
+		HANDS.clear();
+	}
+	
+	//seeing if they want to play this round
+	public Boolean getPlay() {
+		return PLAY;
 	}
 	
 	public double getMoney() {
 		return MONEY;
 	}
 	
-	public String getNAME() {
+	public String getName() {
 		return NAME;
 	}
-
-	public GameState getState() {
-		return state;
+	
+	public ArrayList<Hand> getHands(){
+		return HANDS;
 	}
 
-	public Boolean isHUMAN() {
+	
+	public Boolean isHuman() {
 		return HUMAN;
 	}
+	
+	public String toString() {
+		return "Player name: " + getName() + "\nMoney: " + getMoney() + "\nIs human: " + isHuman() +
+				"\nHands: " + getHands(); 
+	}
+	
+	
+	
 
 }
