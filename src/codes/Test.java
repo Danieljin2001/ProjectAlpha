@@ -17,8 +17,6 @@ public class Test {
 		}
 		for (Player p: players) {
 			System.out.println("Player " + p.getNAME() +" " + p.getMoney());
-			
-			
 		}
         
         
