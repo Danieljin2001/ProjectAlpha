@@ -11,20 +11,18 @@ public class Game {
 
     Game() throws Exception {
         this.menu = new Menu(); // initialize new Menu
-        menu.askName();
-        menu.askPlayerNumber();
-        menu.askMoney();
-        menu.askDeckNumber();
-        this.deck = new Deck(menu.getDECK_NUMBER());
-        this.players = createPlayers(deck, menu.getMONEY(), menu.getNAME());
-        this.dealer = new Dealer();
+        menu.welcome();
+        this.deck = new Deck(menu.askDeckNumber());
+
+        this.players = createPlayers();
+        this.dealer = new Dealer(deck);
     }
 
     public void play() throws Exception {
         for (Player player: players) {
-            player.changeState(new StandbyState(deck));
+            // player.changeState(new StandbyState(deck));
         }
-        executePlayerTurns();
+        // executePlayerTurns();
         if (allPlayersAreDone()) {
             System.out.println("Dealers turn");
             // dealer logic
@@ -39,36 +37,37 @@ public class Game {
         return players;
     }
 
-    private ArrayList<Player> createPlayers(Deck deck, int startMoney, String name) {
+    private ArrayList<Player> createPlayers() {
         ArrayList<Player> players = new ArrayList<>();
 
-        players.add(new HumanPlayer(deck, startMoney, name));
-        for (int x = 1; x < menu.getPLAYER_NUMBER(); x++) {
-            players.add(new HumanPlayer(deck, startMoney, "AI" + x));
+        int numPlayers = menu.askTotalPlayer();
+        for(int i = 0; i < numPlayers; i++) {
+            System.out.print("\nPlayer" + (i+1) + " ");
+            players.add(new HumanPlayer(deck, menu.askName(), menu.askMoney()));
         }
 
         return players;
     }
 
-    public void executePlayerTurns() {
-        for (Player player: players) {
-            System.out.println(player.getNAME() + " is now playing");
-            player.changeState(new PlayingState(deck));
-            if (player.isHUMAN()) {
-                // player / user input logic
-            } else {
-                // AI logic
-            }
-            player.hit();
-            player.changeState(new EndState(deck));
-        }
-    }
+   //  public void executePlayerTurns() {
+        // for (Player player: players) {
+            // System.out.println(player.getNAME() + " is now playing");
+            // player.changeState(new PlayingState(deck));
+           //  if (player.isHUMAN()) {
+            //     // player / user input logic
+           //  } else {
+           //      // AI logic
+          //  }
+            // player.hit();
+            // player.changeState(new EndState(deck));
+      //   }
+    // }
 
     public boolean allPlayersAreDone() {
         for (Player player: players) {
-            if (player.getState().getClass() != EndState.class) {
-                return false;
-            }
+           //  if (player.getState().getClass() != EndState.class) {
+           //      return false;
+           //  }
         }
         return true;
     }

@@ -14,6 +14,10 @@ public class HumanPlayer extends Player{
 		return null;
 		
 	}
+
+	public void hit() {
+		System.out.println("test");
+	}
 	
 	
 
