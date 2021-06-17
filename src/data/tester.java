@@ -17,7 +17,7 @@ public class tester {
 		
 		Deck deck = new Deck(2);
 		Dealer dealer = new Dealer(deck);
-		AiPlayer player = new AiPlayer(deck, "Robot", 1000000);
+		AiPlayer player = new AiPlayer(deck, "Jarvis", 1000000);
 		
 		player.setup();
 		
