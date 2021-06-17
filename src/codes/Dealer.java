@@ -21,7 +21,7 @@ public class Dealer {
 	/*
 	 * Figures out what to do next basically
 	 */
-	public void playNow(){	
+	public void playNow(){
 		
 		boolean hold = false;
 		while(hold == false) {

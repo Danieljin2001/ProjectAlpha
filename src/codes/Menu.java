@@ -137,15 +137,15 @@ public class Menu {
 				System.out.print("How much money are you going to be betting for this round? ");
 				Scanner betAmount = new Scanner(System.in);
 				BETS = betAmount.nextInt();
-				if (BETS > 0 && BETS < player.getMoney()) {
+				if (BETS > 0 && BETS <= player.getMoney()) {
 					System.out.print("You will be betting $" + BETS + " for this round\n");
 					betsDone = true;
 				}
 				else 
-					throw new ArithmeticException ("Please enter a positive integar");
+					throw new ArithmeticException ("Please enter a positive integer");
 			}
 			catch(Exception e) {
-				System.out.print("Please enter a positive integar");
+				System.out.print("Please enter a positive integer");
 		}
 		}
 		return BETS;

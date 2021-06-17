@@ -7,8 +7,8 @@ public class Main {
 
     public static void play() {
         try {
-            // Game game = new Game();
-            // game.play();
+            Game game = new Game();
+            game.play();
         } catch (Exception e) { }
     }
 }

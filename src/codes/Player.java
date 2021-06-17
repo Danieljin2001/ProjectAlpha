@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public abstract class Player {
 
+	private GameState state;
 	private double MONEY;
 	private String NAME;
 	private ArrayList<Hand> HANDS= new ArrayList<Hand>();
@@ -75,7 +76,6 @@ public abstract class Player {
 
 	}
 
-
 	//use after canSplit()
 	public void splitHand() throws Exception {
 		try {
@@ -86,6 +86,10 @@ public abstract class Player {
 			throw new Exception("You cannot split right now.");
 		}
 
+	}
+
+	public void changeState(GameState state) {
+		this.state = state;
 	}
 
 	public Card getFirstCard() {
@@ -124,7 +128,6 @@ public abstract class Player {
 	public ArrayList<Hand> getHands(){
 		return HANDS;
 	}
-
 
 	public Boolean isHuman() {
 		return HUMAN;

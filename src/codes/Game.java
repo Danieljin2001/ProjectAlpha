@@ -19,18 +19,29 @@ public class Game {
     }
 
     public void play() throws Exception {
-        for (Player player: players) {
-            // player.changeState(new StandbyState(deck));
+//        for (Player player: players) {
+//            // player.changeState(new StandbyState(deck));
+//        }
+//        // executePlayerTurns();
+//        if (allPlayersAreDone()) {
+//            System.out.println("Dealers turn");
+//            // dealer logic
+//            determineWinners();
+//        } else {
+//            throw new Exception("Error: Not all players have finished their turn");
+//        }
+//        deck.getUsedDeckInfo();
+        boolean cont = true;
+        //asking if fold or no
+        //if they do play: setup the hands, ask for initial bet
+        while (cont) {
+            setupNewRound();
+            Test.playRound(players, dealer, menu);
+            checkResetDeck();
+            if(menu.askQuit()) {
+                cont = false;
+            }
         }
-        // executePlayerTurns();
-        if (allPlayersAreDone()) {
-            System.out.println("Dealers turn");
-            // dealer logic
-            determineWinners();
-        } else {
-            throw new Exception("Error: Not all players have finished their turn");
-        }
-        deck.getUsedDeckInfo();
     }
 
     public ArrayList<Player> getPlayers() {
@@ -49,6 +60,44 @@ public class Game {
         return players;
     }
 
+    private void setupNewRound() throws Exception {
+        for (Player player: players) {
+            player.changeState(new StandbyState(deck));
+        }
+        dealer.setup();
+        for(Player player : players) {
+            player.playOrNo(menu.askPlay(player));
+            if(player.getPlay()) {
+                player.setup();
+                player.initialBet(menu.askInitialBet(player));
+            }
+        }
+        //dealing out the cards
+        //player first cards
+        for(Player player : players) {
+            if(player.getPlay()) {
+                player.drawCard();
+            }
+        }
+        //dealer first card
+        System.out.println("\nDealer first drew: "+dealer.drawCard());
+        //player second cards
+        for(Player player : players) {
+            if(player.getPlay()) {
+                player.drawCard();
+            }
+        }
+        //dealer second card
+        System.out.println("Dealer Second card is hidden.\n");
+        dealer.drawCard();
+    }
+
+    private void checkResetDeck() {
+        if(deck.getPercentageOfUsed() > 50) {
+            System.out.println("More than 50% of the deck was used.\nReshuffling deck...\n");
+            deck.resetDeck();
+        }
+    }
    //  public void executePlayerTurns() {
         // for (Player player: players) {
             // System.out.println(player.getNAME() + " is now playing");
