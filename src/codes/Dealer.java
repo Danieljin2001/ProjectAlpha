@@ -3,138 +3,75 @@ package codes;
 import java.util.ArrayList;
 
 public class Dealer {
-	
 	private Deck DECK;
-	private  ArrayList<Card> dealerHand = new ArrayList<Card>();
-	
-	private int handValue = 0;
-	
-	public  Dealer(Deck deck)
+	private  ArrayList<Hand> HANDS = new ArrayList<Hand>();
+
+	public Dealer(Deck deck)
 	{
 		this.DECK = deck;
+		setup();
 	}
 	
-	/*
-	 * Draws a card from the deck and adds it to the dealers hand as well as calculates the total sum in the players hand with handValue. 
-	 */
-	public Card Hit() {
-		//System.out.println("dealer hit"+ "\n");
-		Card card = DECK.drawCard();
-		dealerHand.add(card);
-		handValue += (card.getValue()).get(0);
-
-		changeAceValue();
-		
-		return card;
-
-		
-
+	//setup the dealer every new round
+	public void setup() {
+		Hand hand = new Hand(DECK, this);
+		HANDS.add(hand);
 	}
 	
-	/*
+	/* 
 	 * Figures out what to do next basically
 	 */
-	public void checkLogic()
-	{
+	public void playNow(){	
+		
 		boolean hold = false;
 		while(hold == false) {
 		
-		if (handValue > 21){
-			Lost();
-			hold = true;
-
-		}
-		else if (handValue == 21){
-			
-			Win();
+		if (getHandValue() > 21){
 			hold = true;
 		}
-		else if (handValue <17)
+		else if (getHandValue() == 21){
+			hold = true;
+		}
+		else if (getHandValue() <17)
 		{
-			System.out.println("You hit: " + Hit());
-			System.out.println("Your hand: " + getHand());
-			System.out.println("Your hand total value: " + getHandValue());
+			System.out.println("Dealer hit: " + HANDS.get(0).hit());
+			System.out.println("Dealer hand: " + getHand());
+			System.out.println("Dealer hand value: " + getHandValue());
 		}
 		
-		else if(handValue >= 17 && handValue <21) {
-			Hold();
+		else if(getHandValue() >= 17 && getHandValue() <21) {
 			hold = true;
-		}
-		else
-		{
-			
 		}
 		
 	}
 }
 
-	/** 
-	 * this method is to declare when the dealer wins
-	 */
-	public  void Win (){
-		System.out.println("Dealer Wins");
-   
+	//use when drawing out cards
+	public Card drawCard() {
+		return (HANDS.get(0)).hit();
 	}
 	
-	/** 
-	 * this method is to declare when the dealer busts
-	 */
-	public  void Lost (){
-		System.out.println("Dealer Loses");
-    
+	public Card getFirstCard() {
+		Card firstCard = HANDS.get(0).getHand().get(0);
+		return firstCard;
 	}
 	
-	/** 
-	 * this method is to declare when the dealer holds
-	 */
-	public  void Hold (){
-		System.out.println("Dealer holds");
-    
-	} 
+	public Card getSecondCard() {
+		Card secCard = HANDS.get(0).getHand().get(1);
+		return secCard;
+	}
 	
 	public void clearHand(){	
-		dealerHand.removeAll(dealerHand);
-		handValue = 0;
+		HANDS.clear();
 	}
 	
-	private void changeAceValue() {
-		boolean hasAce = false;
-		int valueWithoutAce = 0;
-		int numberOfOtherAces = -1;
-		//checking if the hand has an Ace
-		for (Card card : dealerHand) {
-			if ((card.getName()).equals("Ace")) {
-				hasAce = true;
-				numberOfOtherAces++;
-			}
-			else {
-				valueWithoutAce += card.getValue().get(0);
-			}
-		}
-		
-		int valueOfAce = handValue - valueWithoutAce - numberOfOtherAces;
-		
-		if (hasAce) {
-			//first try setting the Ace to 11
-			if ((handValue - valueOfAce + 11) <= 21) {
-				handValue = handValue - valueOfAce + 11; //setting one of the Ace(s) to 11
-			}
-			else if((handValue - valueOfAce + 1) <= 21) {
-				handValue = handValue - valueOfAce + 1; //setting one of the Ace(s) to 1
-			}
-			else {
-				handValue = handValue - valueOfAce + 1; //set the Ace to 1 default if its over 21
-			}
-		}
-		
-	}
 	
 	public int getHandValue() {
-		return handValue;
+		return HANDS.get(0).getHandValue();
 	}
 	
 	public ArrayList<Card> getHand(){
-		return dealerHand;
+		return HANDS.get(0).getHand();
 	}
 	
 }

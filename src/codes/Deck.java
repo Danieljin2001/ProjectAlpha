@@ -6,8 +6,8 @@ import java.util.Collections;
 
 public class Deck {
 	
-	private ArrayList<Card> CARDS = new ArrayList<Card>();
-	private ArrayList<Card> USED_CARDS = new ArrayList<Card>(); //dynamic array list used to store cards that have been used
+	private ArrayList<Card> CARDS = new ArrayList<>();
+	private ArrayList<Card> USED_CARDS = new ArrayList<>(); //dynamic array list used to store cards that have been used
 	private int numberOfDecks = 0; //number of decks used
 	
 	/**
@@ -19,17 +19,15 @@ public class Deck {
 		addDeck(number);
 		shuffleDeck();
 	}
-	
-	
-	
+
 	/**
 	 * This method adds how ever many decks depending on the parameter
 	 * @param howMany (how many decks you want to add in int)
 	 * @throws Exception (if the parameter is less than or equal to zero, error.)
 	 */
 	public void addDeck(int howMany) throws Exception {
-		ArrayList<String> SUIT = new ArrayList<String>();
-		ArrayList<String> ELEMENT = new ArrayList<String>();
+		ArrayList<String> SUIT = new ArrayList<>();
+		ArrayList<String> ELEMENT = new ArrayList<>();
 		//Adding to elements list
 		ELEMENT.add("Ace");
 		ELEMENT.add("Two");
