@@ -5,116 +5,170 @@ import java.util.Scanner;
 
 
 public class Test {
-	public static void main(String []args) throws Exception{
-		/*
-		Deck deck = new Deck(1);
-		HumanPlayer player = new HumanPlayer(deck, 1000.00, "Test Player");
-        
-		int play = 0;
-		
-		
-		
-		while (play != 10) {
-			System.out.print("Hit? (10 to stop): ");
-			Scanner p = new Scanner(System.in);
-			play = p.nextInt();
-			
-			System.out.println("You hit: " + player.hit());
-			System.out.println("Your hand: " + player.getHand());
-			System.out.println("Your hand total value: " + player.getHandValue());
-			if (player.getHandValue() > 21) {
-				System.out.println("You Lost!");
-				player.clearHand();
-			}
-			else if (player.getHandValue() == 21) {
-				System.out.println("BLACKJACK!");
-				player.clearHand();
-			}
-			
-			if (play == 5) {
-				System.out.println("Used Cards: \n");
-				deck.getUsedDeckInfo();
-				System.out.println("Unused Cards: \n");
-				deck.getDeckInfo();
-				
-			}
-			
-		}
-        
-        
-		
-       
-	}*/
 	
-	Deck deck = new Deck(1);
-	ArrayList<Player> players = new ArrayList<Player>();
-	HumanPlayer human = new HumanPlayer(deck,1000.00, "Daniel");
-	AiPlayer ai = new AiPlayer(deck, 1000.00, "Robot");
-	players.add(human);
-	players.add(ai);
 	
-	for(Player player : players) {
-		player.setup();
-		System.out.println(player.toString());
-		player.initialBet(100);
-		System.out.println("First Card: "+player.drawCard());
-		System.out.println("Second Card: "+player.drawCard());
-		if(player.canSplit()) {
-			int ok = 0;
-			System.out.print("Split? (5 for yes)");
-			Scanner p = new Scanner(System.in);
-			ok = p.nextInt();
-			if(ok == 5) {
-				player.splitHand();
-				player.splitHandBet(250.00);
-				
-			}
-		}
-		for (Hand h : player.getHands()) {
-			
-			int play = 0;
-			while (play != 10) {
-				if(h.getHand().size() >= 2) {
-					if(h.canDouble()) {
-						int yes = 0;
-						System.out.print("Double? (3 for yes)");
-						Scanner p = new Scanner(System.in);
-						yes = p.nextInt();
-						if(yes == 3) {
-							h.doubleDown();
+	public static void playRound(ArrayList<Player> players, Dealer dealer, Menu menu ) throws Exception {
+
+		//players are playing
+		for(Player player : players) {
+			if(player.getPlay()) {
+				System.out.println("\n"+player.getName()+" is playing...\n");
+				System.out.println("First Card: "+player.getFirstCard());
+				System.out.println("Second Card: "+player.getSecondCard());
+				System.out.println("Your hand total value: " + player.getHands().get(0).getHandValue());
+				if(player.canSplit()) {
+					if(menu.askSplit(player)) {
+						player.splitHand();
+						System.out.println("Your split hand: " + player.getHands().get(1).getHand());
+						player.splitHandBet(menu.askSplitBet(player));
+						
+					}
+				}
+			for(Hand h : player.getHands()) {
+				boolean stand = false;
+				while(stand == false) {
+					if(h.getHand().size() >= 2) {
+						if(h.canDouble()) {
+							if(menu.askDouble(player)) {
+								h.doubleDown();
+							}
+						}
+						if(menu.askHitOrStand()) {
+							System.out.println("You hit: " + h.hit());
+							System.out.println("Your hand: " + h.getHand());
+							System.out.println("Your hand total value: " + h.getHandValue());
+							if (h.getHandValue() > 21) {
+								System.out.println("You Lost!");
+								stand = true;
+							}
+							else if (h.getHandValue() == 21) {
+								System.out.println("BLACKJACK!");
+								stand = true;
+							}
+						}
+						else {
+							stand = true;
 						}
 					}
-				System.out.print("Hit? (10 to stop): ");
-				Scanner p = new Scanner(System.in);
-				play = p.nextInt();
+					else if(h.getHand().size() == 1) {
+						h.hit();
+						System.out.println("Your hand now: "+h.getHand());
+						System.out.println("Your hand total value: " + h.getHandValue());
+					}
 				}
-				
-				
-	
-				System.out.println("You hit: " + h.hit());
-				System.out.println("Your hand: " + h.getHand());
-				System.out.println("Your hand total value: " + h.getHandValue());
-				if (h.getHandValue() > 21) {
-					System.out.println("You Lost!");
-					h.lose();
-					play = 10;
+			}
+			}
+		}
+		
+		System.out.println("Dealer is now playing...\n");
+		System.out.println("Dealer's first Card: " + dealer.getFirstCard());
+		System.out.println("Dealer's second Card: " + dealer.getSecondCard());
+		dealer.playNow();
+		System.out.println("Dealer's Hand: " + dealer.getHand());
+		System.out.println("Dealer's Hand value:"+dealer.getHandValue());
+		
+		for(Player player : players) {
+			double wonOrLostAmount = 0;
+			if(player.getPlay()) {
+				for(Hand h : player.getHands()) {
+					if(h.getHandValue() == dealer.getHandValue() ) {
+						wonOrLostAmount += 0;
+					}
+					else if ((h.getHandValue() > dealer.getHandValue() && h.getHandValue() <= 21) 
+							|| (dealer.getHandValue() > 21 && h.getHandValue() < 22)) {
+						h.win();
+						wonOrLostAmount += h.getBetAmount();
+					}
+					else {
+						h.lose();
+						wonOrLostAmount -= h.getBetAmount();
+					}
 				}
-				else if (h.getHandValue() == 21) {
-					System.out.println("BLACKJACK!");
-					h.win();
-					play = 10;
+				if (wonOrLostAmount == 0) {
+					System.out.println(player.getName() + " you did not win or lose money.");
 				}
-				
+				else if (wonOrLostAmount > 0) {
+					System.out.println(player.getName() + " you won $"+ wonOrLostAmount);
+				}
+				else if (wonOrLostAmount < 0) {
+					System.out.println(player.getName() + " you lost $"+ (-1*wonOrLostAmount));
+				}
 				
 			}
-			
-			
+			System.out.println(player.toString());
+			player.clearHands();
 		}
-		System.out.println(player.toString());
-		player.clearHands();
+		
+		dealer.clearHand();
+		
+	}
+	
+	
+	public static void main(String []args) throws Exception{
+	//setup game
+	ArrayList<Player> players = new ArrayList<Player>();
+	Menu menu = new Menu();
+	menu.welcome();
+	Deck deck = new Deck(menu.askDeckNumber());
+	Dealer dealer = new Dealer(deck);
+	int numPlayers = menu.askTotalPlayer();
+	for(int i = 0; i < numPlayers; i++) {
+		System.out.print("\nPlayer" + (i+1) + " ");
+		players.add(new HumanPlayer(deck, menu.askName(), menu.askMoney()));
+	}
+	
+	//starting game
+	System.out.println("\nGame starting...\n");
+	
+	
+	//setup round
+	boolean cont = true;
+	//asking if fold or no
+	//if they do play: setup the hands, ask for initial bet
+	while (cont) {
+		dealer.setup();
+		for(Player player : players) {
+			player.playOrNo(menu.askPlay(player));
+			if(player.getPlay()) {
+				player.setup();
+				player.initialBet(menu.askInitialBet(player));
+			}
+		}
+		
+		//dealing out the cards
+		//player first cards
+		for(Player player : players) {
+			if(player.getPlay()) {
+				player.drawCard();
+			}
+		}
+		//dealer first card
+		System.out.println("\nDealer first drew: "+dealer.drawCard());
+		//player second cards
+		for(Player player : players) {
+			if(player.getPlay()) {
+				player.drawCard();
+			}
+		}
+		//dealer second card
+		System.out.println("Dealer Second card is hidden.\n");
+		dealer.drawCard();
+		
+		playRound(players, dealer, menu);
+		
+		System.out.println("USED CARDS: \n");
+		deck.getUsedDeckInfo();
+		
+		//check if you need to reshuffle the deck
+		if(deck.getPercentageOfUsed() > 50) {
+			System.out.println("More than 50% of the deck was used.\nReshuffling deck...\n");
+			deck.resetDeck();
+		}
+		
+		if(menu.askQuit()) {
+			cont = false;
+		}
 		
 		}
-	System.out.println("USED CARDS: \n");
-	deck.getUsedDeckInfo();
 	}
 }

@@ -8,11 +8,17 @@ public abstract class Player {
 	private String NAME;
 	private ArrayList<Hand> HANDS= new ArrayList<Hand>();
 	
+	private Boolean PLAY = null;
+	
 	protected Boolean HUMAN;
 	protected Deck DECK;
-		
-	
-	public Player(Deck deck, double startMoney, String name) {
+	/**
+	 * Constructor
+	 * @param deck (takes in a deck in the constructor parameter)
+	 *  
+	 */
+	public Player(Deck deck, String name, double startMoney) {
+
 		this.DECK = deck;
 		this.MONEY = startMoney;
 		this.NAME = name;
@@ -82,12 +88,30 @@ public abstract class Player {
 		
 	}
 
+	public Card getFirstCard() {
+		Card firstCard = getHands().get(0).getHand().get(0);
+		return firstCard;
+	}
+	
+	public Card getSecondCard() {
+		Card secCard = getHands().get(0).getHand().get(1);
+		return secCard;
+	}
+	
+	//use when asking player if they want to play this round
+	public void playOrNo(Boolean bool) {
+		this.PLAY = bool;
+	}
+	
 	
 	public void clearHands() {
 		HANDS.clear();
 	}
 	
-	
+	//seeing if they want to play this round
+	public Boolean getPlay() {
+		return PLAY;
+	}
 	
 	public double getMoney() {
 		return MONEY;
