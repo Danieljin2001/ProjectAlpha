@@ -197,7 +197,7 @@ public class Menu {
 		String leave;
 		while (!counter) {
 			try {
-				System.out.print("\nWould like to leave the game(yes or no)? ");
+				System.out.print("\nWould you like to leave the game(yes or no)? ");
 				Scanner quit1 = new Scanner(System.in);
 				leave = quit1.next();
 				if (leave.equals("yes")) {
@@ -256,7 +256,7 @@ public class Menu {
 		return MOVES;
 	}
 	
-	
+	 
 	//new ones from daniel
 	
 	public boolean askSplit(Player player) {

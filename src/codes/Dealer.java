@@ -18,7 +18,7 @@ public class Dealer {
 		HANDS.add(hand);
 	}
 	
-	/*
+	/* 
 	 * Figures out what to do next basically
 	 */
 	public void playNow(){
