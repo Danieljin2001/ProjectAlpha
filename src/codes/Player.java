@@ -35,7 +35,7 @@ public abstract class Player {
 	}
 
 	//use when player wants to play a round
-	public void setup() {
+	private void setup() {
 		Hand hand = new Hand(DECK, this);
 		HANDS.add(hand);
 	}
@@ -105,6 +105,9 @@ public abstract class Player {
 	//use when asking player if they want to play this round
 	public void playOrNo(Boolean bool) {
 		this.PLAY = bool;
+		if(bool) {
+			setup();
+		}
 	}
 
 
