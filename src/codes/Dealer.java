@@ -13,7 +13,7 @@ public class Dealer {
 	}
 	
 	//setup the dealer every new round
-	public void setup() {
+	private void setup() {
 		Hand hand = new Hand(DECK, this);
 		HANDS.add(hand);
 	}
@@ -21,7 +21,7 @@ public class Dealer {
 	/* 
 	 * Figures out what to do next basically
 	 */
-	public void playNow(){	
+	public void playNow(){
 		
 		boolean hold = false;
 		while(hold == false) {
@@ -63,6 +63,7 @@ public class Dealer {
 	
 	public void clearHand(){	
 		HANDS.clear();
+		setup();
 	}
 	
 	
